@@ -22,16 +22,21 @@ export async function GET(request: Request, ctx: RouteContext<"/api/orders/[id]"
   const order = await getOrder(id);
   if (!order) return jsonError("Order not found", 404);
 
-  const { customer, paypalOrderId: _p, paypalCaptureId: _c, ...rest } = order;
+  const { customer, paypalOrderId: _p, paypalCaptureId: _c, refund, ...rest } = order;
   void _p;
   void _c;
   // Street only: enough for the customer to recognise it, nothing more.
   const deliveryArea = customer.address.split(",")[0].slice(0, 60);
-  const publicOrder: PublicOrder = { ...rest, deliveryArea };
+  const publicOrder: PublicOrder = {
+    ...rest,
+    deliveryArea,
+    refund: refund && { amount: refund.amount, reason: refund.reason, at: refund.at },
+  };
   return Response.json({ order: publicOrder }, { headers: { "Cache-Control": "no-store" } });
 }
 
-const PatchSchema = z.object({ status: z.enum([...STATUS_FLOW, "cancelled"]) });
+// Cancelling goes through /refund so a paid order is never cancelled without its money back.
+const PatchSchema = z.object({ status: z.enum(STATUS_FLOW) });
 
 /** Kitchen: move an order through received → preparing → out_for_delivery → delivered. */
 export async function PATCH(request: Request, ctx: RouteContext<"/api/orders/[id]">) {
@@ -48,6 +53,7 @@ export async function PATCH(request: Request, ctx: RouteContext<"/api/orders/[id
   const existing = await getOrder(id);
   if (!existing) return jsonError("Order not found", 404);
   if (existing.status === "pending_payment") return jsonError("Order is not paid yet", 409);
+  if (existing.status === "cancelled") return jsonError("Order was cancelled", 409);
 
   return Response.json({ order: await setOrderStatus(id, parsed.data.status) });
 }

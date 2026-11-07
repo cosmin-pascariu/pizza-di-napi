@@ -11,7 +11,7 @@ export interface MenuItem {
   image?: string;
   tags: ("vegetarian" | "vegan" | "spicy" | "bestseller")[];
   available: boolean;
-  /** Flour used for the dough, e.g. "Caputo Pizzeria 00" (doughs and breads only). */
+  /** Flour used for the dough, e.g. "Italian Tipo 00" (doughs and breads only). */
   flour?: string;
   /** Approximate energy for the whole portion. */
   kcal?: number;
@@ -84,6 +84,14 @@ export interface Order {
   status: OrderStatus;
   paypalOrderId?: string;
   paypalCaptureId?: string;
+  /** Set when the kitchen cancels a paid order and the payment is refunded through PayPal. */
+  refund?: {
+    paypalRefundId: string;
+    status: string;
+    amount: number;
+    reason: string;
+    at: string;
+  };
 }
 
 export const STATUS_FLOW: OrderStatus[] = [
@@ -99,5 +107,5 @@ export const STATUS_LABEL: Record<OrderStatus, string> = {
   preparing: "In the oven",
   out_for_delivery: "Out for delivery",
   delivered: "Delivered",
-  cancelled: "Cancelled",
+  cancelled: "Cancelled and refunded",
 };

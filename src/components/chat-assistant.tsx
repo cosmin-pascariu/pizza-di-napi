@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport, lastAssistantMessageIsCompleteWithToolCalls } from "ai";
 import { useCart } from "./providers";
@@ -30,6 +31,7 @@ const transport = new DefaultChatTransport<AssistantMessage>({
 
 export function ChatAssistant() {
   const cart = useCart();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -50,7 +52,15 @@ export function ChatAssistant() {
       const { menu, lines, add, setQty, clear } = cartRef.current;
       let output: CartToolOutput;
 
-      if (toolCall.toolName === "clear_cart") {
+      if (toolCall.toolName === "go_to_checkout") {
+        if (lines.length === 0) {
+          output = { ok: false, message: "The cart is empty" };
+        } else {
+          output = { ok: true, message: "Opening checkout" };
+          setOpen(false);
+          router.push("/cart");
+        }
+      } else if (toolCall.toolName === "clear_cart") {
         clear();
         output = { ok: true, message: "Cart cleared" };
       } else {
@@ -185,6 +195,7 @@ export function ChatAssistant() {
                       if (
                         part.type === "tool-add_to_cart" ||
                         part.type === "tool-set_quantity" ||
+                        part.type === "tool-go_to_checkout" ||
                         part.type === "tool-clear_cart"
                       ) {
                         const out = part.state === "output-available" ? part.output : null;

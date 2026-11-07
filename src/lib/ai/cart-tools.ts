@@ -26,6 +26,12 @@ export const cartTools = {
     }),
     outputSchema: cartToolOutput,
   }),
+  go_to_checkout: tool({
+    description:
+      "Open the checkout page where the customer enters delivery details and pays with PayPal. Use when they say they are done or ready to pay, and the cart is not empty.",
+    inputSchema: z.object({}),
+    outputSchema: cartToolOutput,
+  }),
   clear_cart: tool({
     description: "Remove everything from the cart. Only use when the customer asks to start over.",
     inputSchema: z.object({}),

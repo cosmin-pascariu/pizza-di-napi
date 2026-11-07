@@ -4,7 +4,7 @@ export const DELIVERY_FEE = 2.5;
 export const FREE_DELIVERY_FROM = 30;
 
 /** All pizza and bread doughs use the same flour, rested for 48 hours. */
-export const PIZZA_FLOUR = "Caputo Pizzeria 00";
+export const PIZZA_FLOUR = "Italian Tipo 00";
 
 /*
  * Calories are estimates for the whole portion (a 30 cm Neapolitan pizza uses a

@@ -55,17 +55,34 @@ function OrderTracker() {
 
   return (
     <div className="mx-auto max-w-lg px-4 pb-16 pt-8">
-      <div className="rounded-2xl bg-[#1f4d35] px-5 py-6 text-white">
+      <div
+        className={`rounded-2xl px-5 py-6 text-white ${
+          order.status === "cancelled" ? "bg-[#8f2a1a]" : "bg-[#1f4d35]"
+        }`}
+      >
         <p className="text-sm opacity-80">Order #{orderCode(order.id)}</p>
         <h1 className="mt-1 font-display text-3xl font-semibold">
           {order.status === "cancelled" ? "Order cancelled" : STATUS_LABEL[order.status]}
         </h1>
         <p className="mt-1 text-sm opacity-90">
-          {order.status === "delivered"
-            ? "Enjoy your meal! 🍕"
-            : `Paid with PayPal · ${formatEUR(order.total)}`}
+          {order.status === "cancelled" && order.refund
+            ? `${formatEUR(order.refund.amount)} has been refunded to your PayPal account.`
+            : order.status === "delivered"
+              ? "Enjoy your meal! 🍕"
+              : `Paid with PayPal: ${formatEUR(order.total)}`}
         </p>
       </div>
+
+      {order.refund && (
+        <div className="mt-5 rounded-2xl border border-line bg-card p-4 text-sm">
+          <p className="font-semibold">Why was it cancelled?</p>
+          <p className="mt-1 text-muted">{order.refund.reason}.</p>
+          <p className="mt-2 text-muted">
+            The refund is processed by PayPal and usually shows up in your account within minutes.
+            We&apos;re sorry, and we hope to bake for you again soon.
+          </p>
+        </div>
+      )}
 
       {order.status !== "cancelled" && (
         <ol className="mt-5 space-y-3">

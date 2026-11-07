@@ -90,7 +90,7 @@ export function createOrder(
 
 export function updateOrder(
   id: string,
-  patch: Partial<Pick<Order, "status" | "paypalOrderId" | "paypalCaptureId">>,
+  patch: Partial<Pick<Order, "status" | "paypalOrderId" | "paypalCaptureId" | "refund">>,
 ): Promise<Order | undefined> {
   return mutate((db) => {
     const order = db.orders.find((o) => o.id === id);

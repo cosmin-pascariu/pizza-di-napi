@@ -3,8 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { formatEUR } from "@/lib/pricing";
 import { KitchenAssistant } from "@/components/kitchen-assistant";
+import { KitchenOrderCard } from "@/components/kitchen-order-card";
 import { STATUS_FLOW, type Order, type OrderStatus } from "@/lib/types";
-import { orderCode } from "@/lib/types-public";
 
 const COLUMNS: { status: OrderStatus; title: string }[] = [
   { status: "received", title: "New" },
@@ -128,6 +128,9 @@ export default function AdminPage() {
   }
 
   const paid = orders?.filter((o) => o.status !== "pending_payment" && o.status !== "cancelled") ?? [];
+  const cancelled = orders?.filter((o) => o.status === "cancelled") ?? [];
+  const onRefunded = (updated: Order) =>
+    setOrders((prev) => prev?.map((o) => (o.id === updated.id ? updated : o)) ?? null);
   const todays = paid.filter((o) => new Date(o.createdAt).toDateString() === today);
   const revenue = todays.reduce((s, o) => s + o.total, 0);
 
@@ -180,41 +183,13 @@ export default function AdminPage() {
                   {list.map((o) => {
                     const next = nextStatus(o.status);
                     return (
-                      <li key={o.id} className="rounded-2xl border border-line bg-card p-3 text-sm">
-                        <div className="flex justify-between">
-                          <span className="font-semibold">#{orderCode(o.id)}</span>
-                          <span className="text-muted">
-                            {new Date(o.createdAt).toLocaleTimeString([], {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            })}
-                          </span>
-                        </div>
-                        <ul className="mt-1.5 text-muted">
-                          {o.lines.map((l) => (
-                            <li key={l.itemId}>
-                              {l.quantity}× {l.name}
-                            </li>
-                          ))}
-                        </ul>
-                        <p className="mt-1.5 truncate text-xs text-muted">
-                          {o.customer.name} · {o.customer.address}
-                        </p>
-                        {o.customer.notes && (
-                          <p className="mt-1 rounded bg-cream px-2 py-1 text-xs">“{o.customer.notes}”</p>
-                        )}
-                        <div className="mt-2 flex items-center justify-between">
-                          <span className="font-medium">{formatEUR(o.total)}</span>
-                          {next && (
-                            <button
-                              onClick={() => advance(o, next)}
-                              className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white active:scale-95"
-                            >
-                              {NEXT_ACTION[next]}
-                            </button>
-                          )}
-                        </div>
-                      </li>
+                      <KitchenOrderCard
+                        key={o.id}
+                        order={o}
+                        nextLabel={next ? NEXT_ACTION[next] : undefined}
+                        onAdvance={next ? () => advance(o, next) : undefined}
+                        onRefunded={onRefunded}
+                      />
                     );
                   })}
                 </ul>
@@ -222,6 +197,19 @@ export default function AdminPage() {
             );
           })}
         </div>
+      )}
+
+      {cancelled.length > 0 && (
+        <section className="mt-6 px-4 md:px-0">
+          <h2 className="mb-2 text-sm font-medium text-muted">
+            Cancelled and refunded ({cancelled.length})
+          </h2>
+          <ul className="grid gap-2 sm:grid-cols-2 md:grid-cols-4">
+            {cancelled.map((o) => (
+              <KitchenOrderCard key={o.id} order={o} onRefunded={onRefunded} />
+            ))}
+          </ul>
+        </section>
       )}
     </div>
   );

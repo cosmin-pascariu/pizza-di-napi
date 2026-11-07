@@ -79,8 +79,8 @@ export default function MenuPage() {
           })}
 
           <p className="rounded-xl border border-line px-4 py-3 text-sm leading-relaxed text-muted">
-            Calories are approximate and refer to the whole portion. All our doughs use Caputo
-            Pizzeria 00 flour, rested for 48 hours. Our kitchen also handles nuts and sesame, so
+            Calories are approximate and refer to the whole portion. All our doughs use Italian
+            Tipo 00 flour, rested for 48 hours. Our kitchen also handles nuts and sesame, so
             traces are possible. If you have an allergy, write it in the notes for the courier at
             checkout.
           </p>

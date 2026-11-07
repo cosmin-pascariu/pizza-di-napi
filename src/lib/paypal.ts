@@ -119,6 +119,26 @@ interface CaptureResponse {
   }[];
 }
 
+/**
+ * Full refund of a captured payment (Payments v2).
+ * Docs: https://developer.paypal.com/docs/api/payments/v2/#captures_refund
+ */
+export async function refundCapture(order: Order, reason: string) {
+  if (!order.paypalCaptureId) throw new PayPalError("Order has no captured payment", 409);
+  return paypalFetch<{ id: string; status: string }>(
+    `/v2/payments/captures/${order.paypalCaptureId}/refund`,
+    {
+      method: "POST",
+      headers: { "PayPal-Request-Id": `refund-${order.id}` },
+      body: JSON.stringify({
+        amount: money(order.total),
+        invoice_id: order.id,
+        note_to_payer: `Pizza di Napi refunded your order: ${reason}`.slice(0, 255),
+      }),
+    },
+  );
+}
+
 export async function capturePayPalOrder(paypalOrderId: string) {
   const res = await paypalFetch<CaptureResponse>(
     `/v2/checkout/orders/${paypalOrderId}/capture`,
