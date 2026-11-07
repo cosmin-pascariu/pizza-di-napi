@@ -1,0 +1,112 @@
+@import "tailwindcss";
+
+/*
+ * Pizza di Napi palette
+ * - oven:   deep basil green, the brand colour (header mark, Slicey, statuses)
+ * - tomato: San Marzano red, reserved for actions (add, checkout, pay)
+ * - flour:  soft neutral for section bands and quiet surfaces
+ * - crust:  golden highlight, used sparingly
+ */
+:root {
+  --page: #ffffff;
+  --card: #ffffff;
+  --flour: #f4f2ec;
+  --ink: #1e1e1c;
+  --muted: #6b6860;
+  --line: #e6e3da;
+  --tomato: #c8321e;
+  --tomato-soft: #fbe7e3;
+  --oven: #1f4d35;
+  --oven-soft: #e3eee7;
+  --crust: #e9b44c;
+  --brand: #1f4d35; /* solid green surfaces with white text, same in both themes */
+  color-scheme: light;
+}
+
+/* Dark theme: follows the system unless the visitor picked a theme (data-theme on <html>). */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --page: #151614;
+    --card: #1d1f1c;
+    --flour: #232521;
+    --ink: #f1efe9;
+    --muted: #a5a39b;
+    --line: #33352f;
+    --tomato: #e2543d;
+    --tomato-soft: #3a211c;
+    --oven: #6fbf8e;
+    --oven-soft: #1e3327;
+    --crust: #f0c46a;
+    --brand: #2a6346;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --page: #151614;
+  --card: #1d1f1c;
+  --flour: #232521;
+  --ink: #f1efe9;
+  --muted: #a5a39b;
+  --line: #33352f;
+  --tomato: #e2543d;
+  --tomato-soft: #3a211c;
+  --oven: #6fbf8e;
+  --oven-soft: #1e3327;
+  --crust: #f0c46a;
+  --brand: #2a6346;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-page: var(--page);
+  --color-card: var(--card);
+  --color-flour: var(--flour);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-tomato: var(--tomato);
+  --color-tomato-soft: var(--tomato-soft);
+  --color-oven: var(--oven);
+  --color-oven-soft: var(--oven-soft);
+  --color-crust: var(--crust);
+  --color-brand: var(--brand);
+  /* legacy aliases used by older components */
+  --color-cream: var(--page);
+  --color-basil: var(--oven);
+  --color-basil-soft: var(--oven-soft);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-script: var(--font-script);
+}
+
+html,
+body {
+  background: var(--page);
+  color: var(--ink);
+}
+
+body {
+  -webkit-tap-highlight-color: transparent;
+  font-feature-settings: "tnum" 0;
+}
+
+input,
+textarea {
+  font-size: 16px; /* prevents iOS zoom on focus */
+}
+
+:focus-visible {
+  outline: 2px solid var(--oven);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

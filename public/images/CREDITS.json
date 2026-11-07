@@ -1,0 +1,74 @@
+[
+  {
+    "file": "public/images/hero.webp",
+    "author": "Fabrizio Pullara",
+    "profile": "https://unsplash.com/@fabrizio_photopf",
+    "photo": "https://unsplash.com/photos/pizza-baking-in-wood-fired-oven-vHRFraV4U00"
+  },
+  {
+    "file": "public/images/about.webp",
+    "author": "Nik Owens",
+    "profile": "https://unsplash.com/@nik_owens",
+    "photo": "https://unsplash.com/photos/pizza-on-brown-wooden-table-40OJLYVWeeM"
+  },
+  {
+    "file": "public/images/margherita.webp",
+    "author": "Aurélien Lemasson-Théobald",
+    "profile": "https://unsplash.com/@aurel__lens",
+    "photo": "https://unsplash.com/photos/round-cooked-pizza-x00CzBt4Dfk"
+  },
+  {
+    "file": "public/images/diavola.webp",
+    "author": "David Foodphototasty",
+    "profile": "https://unsplash.com/@phototastyfood",
+    "photo": "https://unsplash.com/photos/a-pepperoni-pizza-sitting-on-top-of-a-wooden-cutting-board-xIqVfW8XUt4"
+  },
+  {
+    "file": "public/images/quattro-formaggi.webp",
+    "author": "Artem Mihailov",
+    "profile": "https://unsplash.com/@mihailovart_pht",
+    "photo": "https://unsplash.com/photos/a-pizza-sitting-on-top-of-a-wooden-cutting-board-7wM-Ad3p56E"
+  },
+  {
+    "file": "public/images/prosciutto-funghi.webp",
+    "author": "David Foodphototasty",
+    "profile": "https://unsplash.com/@phototastyfood",
+    "photo": "https://unsplash.com/photos/a-pizza-with-mushrooms-and-ham-on-a-wooden-board-Ew_9G3UfsA0"
+  },
+  {
+    "file": "public/images/ortolana.webp",
+    "author": "Laure Noverraz",
+    "profile": "https://unsplash.com/@lornov",
+    "photo": "https://unsplash.com/photos/pizza-with-cheese-and-green-leaves-jsZKLRi7toU"
+  },
+  {
+    "file": "public/images/garlic-bread.webp",
+    "author": "Waldemar Brandt",
+    "profile": "https://unsplash.com/@waldemarbrandt67w",
+    "photo": "https://unsplash.com/photos/brown-bread-on-white-ceramic-plate-zevnVcUyiJg"
+  },
+  {
+    "file": "public/images/caesar-salad.webp",
+    "author": "Chris Tweten",
+    "profile": "https://unsplash.com/@ctwtn",
+    "photo": "https://unsplash.com/photos/closed-photography-of-vegetable-salad-with-croutons-in-plate-FK-UKNip0pE"
+  },
+  {
+    "file": "public/images/lemonade.webp",
+    "author": "Juliet Frías",
+    "profile": "https://unsplash.com/@july_06",
+    "photo": "https://unsplash.com/photos/clear-drinking-glass-with-lemon-juice-WDgN0XclV_w"
+  },
+  {
+    "file": "public/images/cola.webp",
+    "author": "Qasim Malick",
+    "profile": "https://unsplash.com/@qasimmalick",
+    "photo": "https://unsplash.com/photos/clear-drinking-glass-with-ice-and-black-liquid-i597Mg_WSPw"
+  },
+  {
+    "file": "public/images/tiramisu.webp",
+    "author": "Gina's Auckland",
+    "profile": "https://unsplash.com/@ginasauckland",
+    "photo": "https://unsplash.com/photos/a-piece-of-cake-sitting-on-top-of-a-white-plate-d-Mx494kXAg"
+  }
+]
