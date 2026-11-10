@@ -81,6 +81,13 @@ export async function createPayPalOrder(order: Order) {
     headers: { "PayPal-Request-Id": `create-${order.id}` },
     body: JSON.stringify({
       intent: "CAPTURE",
+      // Applies to every funding source the buttons offer (PayPal balance, card, Pay Later).
+      application_context: {
+        brand_name: "Pizza di Napi",
+        // We collect the delivery address ourselves, so PayPal shouldn't ask for one.
+        shipping_preference: "NO_SHIPPING",
+        user_action: "PAY_NOW",
+      },
       purchase_units: [
         {
           reference_id: order.id,

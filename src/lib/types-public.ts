@@ -7,4 +7,5 @@ export type PublicOrder = Omit<Order, "customer" | "paypalOrderId" | "paypalCapt
 };
 
 /** Short, human-friendly order number shown in the UI and to the kitchen. */
-export const orderCode = (id: string) => id.slice(0, 6).toUpperCase();
+export const orderCode = (id: string) =>
+  id.replace(/[^A-Za-z0-9]/g, "").slice(0, 6).toUpperCase();

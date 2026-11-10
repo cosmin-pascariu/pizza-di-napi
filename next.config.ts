@@ -45,6 +45,9 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // Strict Mode double-mounts components in dev, which closes the PayPal buttons
+  // right after they render (react-paypal-js). Production is unaffected either way.
+  reactStrictMode: false,
   // Lets phones on the same Wi-Fi (http://192.168.x.x:3000) use hot reload in dev.
   allowedDevOrigins: ["192.168.*.*", "10.*.*.*"],
   cacheComponents: true,

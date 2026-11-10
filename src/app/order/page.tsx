@@ -116,12 +116,20 @@ function OrderTracker() {
               <span className="tabular-nums">{formatEUR(l.unitPrice * l.quantity)}</span>
             </li>
           ))}
+          <li className="flex justify-between text-muted">
+            <span>Delivery</span>
+            <span className="tabular-nums">
+              {order.deliveryFee === 0 ? "Free" : formatEUR(order.deliveryFee)}
+            </span>
+          </li>
         </ul>
         <div className="mt-2 flex justify-between border-t border-line pt-2 font-semibold">
           <span>Total</span>
           <span>{formatEUR(order.total)}</span>
         </div>
-        <p className="mt-3 text-muted">Delivering to {order.deliveryArea}</p>
+        <p className="mt-3 text-muted">
+          {order.status === "cancelled" ? "Delivery address" : "Delivering to"}: {order.deliveryArea}
+        </p>
       </div>
 
       <p className="mt-4 text-center text-xs text-muted">This page updates automatically.</p>

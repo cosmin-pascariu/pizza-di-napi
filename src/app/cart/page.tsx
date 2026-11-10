@@ -65,7 +65,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="mx-auto grid max-w-5xl gap-8 px-4 pb-16 pt-8 sm:px-6 md:grid-cols-[1fr_340px]">
+    <div className="mx-auto grid max-w-5xl grid-cols-[minmax(0,1fr)] gap-8 px-4 pb-16 pt-8 sm:px-6 md:grid-cols-[minmax(0,1fr)_340px]">
       <section>
         <h1 className="mb-4 font-display text-4xl text-oven">Your order</h1>
         <ul className="divide-y divide-line rounded-2xl border border-line bg-card">
@@ -82,11 +82,14 @@ export default function CartPage() {
                   )}
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium">{item.name}</p>
-                  <p className="text-sm text-muted">{formatEUR(item.price)}</p>
+                  <p className="break-words font-medium leading-snug">{item.name}</p>
+                  <p className="text-sm text-muted tabular-nums">
+                    <span className="sm:hidden">{formatEUR(item.price * l.quantity)}</span>
+                    <span className="hidden sm:inline">{formatEUR(item.price)}</span>
+                  </p>
                 </div>
-                <Stepper value={l.quantity} onChange={(n) => setQty(l.itemId, n)} />
-                <span className="w-16 text-right font-medium tabular-nums">
+                <Stepper value={l.quantity} onChange={(n) => setQty(l.itemId, n)} label={item.name} />
+                <span className="hidden w-16 text-right font-medium tabular-nums sm:block">
                   {formatEUR(item.price * l.quantity)}
                 </span>
               </li>
