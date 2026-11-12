@@ -1,7 +1,7 @@
 import { generateText, isStepCount, tool } from "ai";
 import { z } from "zod";
 import { addMenuItem, getMenu, listOrders, updateMenuItem } from "@/lib/store";
-import { chatModel, isAiConfigured } from "@/lib/ai/model";
+import { aiProviderOptions, chatModel, isAiConfigured, MAX_OUTPUT_TOKENS } from "@/lib/ai/model";
 import { handleError, jsonError, readJson, requireAdmin } from "@/lib/api-utils";
 import { rateLimit } from "@/lib/security";
 
@@ -41,11 +41,12 @@ export async function POST(request: Request) {
 
     const result = await generateText({
       model: chatModel(),
-      maxOutputTokens: 600,
+      maxOutputTokens: MAX_OUTPUT_TOKENS,
+      providerOptions: aiProviderOptions,
       stopWhen: isStepCount(6),
       instructions: `You are the back-office assistant of the Pizza di Napi pizzeria. You help the owner manage the menu and understand today's sales.
-Use the tools to apply menu changes. Prices are in EUR. "Out of stock" / "remove for today" means available=false, not deleting.
-After acting, answer in 1-3 short plain-text sentences listing what changed. Reply in the owner's language. If the request is ambiguous, ask a short clarifying question instead of guessing.
+Always use the tools to apply menu changes, one call per item. Never say something changed unless the tool call for it succeeded in this conversation. Prices are in EUR. "Out of stock" / "remove for today" means available=false, not deleting.
+After acting, answer in 1-3 short plain-text sentences listing what changed. Reply in the same language as the owner's message (English unless they clearly write in another language); dish names like Tiramisù or Diavola are Italian words and do not mean the owner is writing Italian. If the request is ambiguous, ask a short clarifying question instead of guessing.
 
 MENU:
 ${menu.map((m) => `- id: ${m.id} | ${m.name} | €${m.price.toFixed(2)} | ${m.category} | available: ${m.available} | tags: ${m.tags.join(", ") || "-"}`).join("\n")}

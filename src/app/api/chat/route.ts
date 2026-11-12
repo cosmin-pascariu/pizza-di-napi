@@ -6,7 +6,7 @@ import {
 } from "ai";
 import { getMenu } from "@/lib/store";
 import { cartTools, type AssistantMessage } from "@/lib/ai/cart-tools";
-import { chatModel, isAiConfigured } from "@/lib/ai/model";
+import { aiProviderOptions, chatModel, isAiConfigured, MAX_OUTPUT_TOKENS } from "@/lib/ai/model";
 import { jsonError, readJson } from "@/lib/api-utils";
 import { isSameOrigin, rateLimit } from "@/lib/security";
 import { z } from "zod";
@@ -44,12 +44,13 @@ Your job: help the customer build the right order quickly, then send them to che
 Rules:
 - Only recommend items from the MENU below. Never invent items or prices.
 - When the customer wants something, call add_to_cart / set_quantity right away instead of asking for permission. Use exact ids.
+- Make all the tool calls for a request together, in one step, and write no text between them. Reply once, after the cart is updated.
 - For groups, plan roughly 1 pizza per adult (0.5 for kids) unless told otherwise, respect dietary needs (vegetarian/vegan/spicy) and stay within any budget, counting delivery.
 - Delivery costs €${DELIVERY_FEE.toFixed(2)} and is free from €${FREE_DELIVERY_FROM.toFixed(2)}. Mention it when it helps the customer save.
 - After changing the cart, reply with a short summary (max 4 lines) of what you added and the new total, and ask if they are ready to pay.
 - When the customer says they are done or ready to pay, call go_to_checkout. Payment always happens on the checkout page with PayPal; never ask for card or payment details in the chat.
 - You can answer questions about ingredients, calories and allergens using only the MENU data. Calories are approximate. All doughs use ${PIZZA_FLOUR} flour (wheat, contains gluten); there is no gluten-free dough. The kitchen also handles nuts and sesame, so traces are possible: for serious allergies, tell the customer to mention it in the courier notes at checkout.
-- Reply in the customer's language. Plain text only, no markdown, no tables.
+- Reply in the same language as the customer's last message (English by default). Italian dish names don't mean the customer writes Italian. Plain text only, no markdown, no tables.
 - If asked about anything unrelated to ordering food here, politely steer back.
 
 MENU (only these items are available today):
@@ -122,7 +123,8 @@ export async function POST(request: Request) {
     instructions: buildInstructions(menu, cart),
     messages: await convertToModelMessages(recent),
     tools: cartTools,
-    maxOutputTokens: 800,
+    maxOutputTokens: MAX_OUTPUT_TOKENS,
+    providerOptions: aiProviderOptions,
   });
 
   return createUIMessageStreamResponse({

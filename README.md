@@ -37,16 +37,14 @@ refunds, and the owner runs the kitchen and the menu by simply talking to it.
 
 ## Testing instructions
 
-**Live demo:** _LIVE_URL_ (hosted on Render's free plan: the first visit after a quiet period can take up to a minute to wake up).
+**Live demo:** <https://pizza-di-napi.onrender.com> (hosted on Render's free plan: the first visit after a quiet period can take up to a minute to wake up).
 
 1. **Order with AI:** open the demo, tap **Ask Slicey** and try *"We're 4 people, one is vegetarian, budget €40"* or *"Which pizzas have no milk?"*. Watch the cart fill up, then say *"that's all"* to go to checkout.
-2. **Pay with PayPal (sandbox, no real money):** fill in any delivery details and pay with this sandbox buyer account:
-   - Email: _SANDBOX_BUYER_EMAIL_
-   - Password: _SANDBOX_BUYER_PASSWORD_
-3. **Kitchen:** open `/admin` in another tab and sign in with PIN _DEMO_ADMIN_PIN_. Move the order forward and watch the customer's tracking page update, or **Cancel** it to trigger an automatic PayPal refund.
+2. **Pay with PayPal (sandbox, no real money):** fill in any delivery details and pay with the PayPal sandbox buyer account from the testing instructions in our Devpost submission (or your own sandbox buyer account).
+3. **Kitchen:** open `/admin` in another tab and sign in with the demo kitchen PIN from the testing instructions in our Devpost submission. Move the order forward and watch the customer's tracking page update, or **Cancel** it to trigger an automatic PayPal refund.
 4. **AI menu assistant:** in the kitchen, try *"We're out of tiramisu tonight"* or *"Diavola is €11 from today"*.
 
-These credentials belong to a PayPal **sandbox** test account and a demo kitchen; they move no real money.
+Test credentials are shared in the Devpost submission rather than in this public repository. They belong to a PayPal **sandbox** test account and a demo kitchen and move no real money.
 
 ## Running locally
 
